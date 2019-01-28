@@ -81,29 +81,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private String mWifiUser=null, mWifiPass=null;
 
-/*
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-
-    };
-*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +101,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mUpdateButton.setEnabled(false);
 
         mWifiAlertDialog = createWifiCredentialAlertDialog(this);
-
-//        mWifiListSpinner = (Spinner) mWifiAlertDialog.findViewById(R.id.sp_wifi_list);
-
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // If the network is already configured, then may need to "forget" the network if this app did not created the network
         if (!isNetworkConfigured(mConnectWifiSSID)) {
@@ -528,124 +500,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-//////////////////////////////////
-/*
-    public static void setIpAssignment(String assign , WifiConfiguration wifiConf)
-            throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException{
-        setEnumField(wifiConf, assign, "ipAssignment");
-    }
-
-    public static void setIpAddress(InetAddress addr, int prefixLength, WifiConfiguration wifiConf)
-            throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException,
-            NoSuchMethodException, ClassNotFoundException, InstantiationException, InvocationTargetException {
-        Object linkProperties = getField(wifiConf, "linkProperties");
-        if(linkProperties == null)return;
-        Class laClass = Class.forName("android.net.LinkAddress");
-        Constructor laConstructor = laClass.getConstructor(new Class[]{InetAddress.class, int.class});
-        Object linkAddress = laConstructor.newInstance(addr, prefixLength);
-
-        ArrayList mLinkAddresses = (ArrayList)getDeclaredField(linkProperties, "mLinkAddresses");
-        mLinkAddresses.clear();
-        mLinkAddresses.add(linkAddress);
-    }
-
-    public static void setGateway(InetAddress gateway, WifiConfiguration wifiConf)
-            throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException,
-            ClassNotFoundException, NoSuchMethodException, InstantiationException, InvocationTargetException{
-        Object linkProperties = getField(wifiConf, "linkProperties");
-        if(linkProperties == null)return;
-        Class routeInfoClass = Class.forName("android.net.RouteInfo");
-        Constructor routeInfoConstructor = routeInfoClass.getConstructor(new Class[]{InetAddress.class});
-        Object routeInfo = routeInfoConstructor.newInstance(gateway);
-
-        ArrayList mRoutes = (ArrayList)getDeclaredField(linkProperties, "mRoutes");
-        mRoutes.clear();
-        mRoutes.add(routeInfo);
-    }
-
-    public static void setDNS(InetAddress dns, WifiConfiguration wifiConf, boolean bAdd)
-            throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException{
-        Object linkProperties = getField(wifiConf, "linkProperties");
-        if(linkProperties == null)return;
-
-        ArrayList<InetAddress> mDnses = (ArrayList<InetAddress>)getDeclaredField(linkProperties, "mDnses");
-        if (!bAdd)
-            mDnses.clear(); //or add a new dns address , here I just want to replace DNS1
-        mDnses.add(dns);
-    }
-
-    public static Object getField(Object obj, String name)
-            throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        Field f = obj.getClass().getField(name);
-        Object out = f.get(obj);
-        return out;
-    }
-
-    public static Object getDeclaredField(Object obj, String name)
-            throws SecurityException, NoSuchFieldException,
-            IllegalArgumentException, IllegalAccessException {
-        Field f = obj.getClass().getDeclaredField(name);
-        f.setAccessible(true);
-        Object out = f.get(obj);
-        return out;
-    }
-
-    public static void setEnumField(Object obj, String value, String name)
-            throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        Field f = obj.getClass().getField(name);
-        f.set(obj, Enum.valueOf((Class<Enum>) f.getType(), value));
-    }
-
-    void updateWifiNetwork(boolean setDhcp, String address, String gateway, String dns1, String dns2, int mask_bits) {
-        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if(!wm.isWifiEnabled()) {
-            // wifi is disabled
-            Log.d(LOG_TAG, "Wifi is disabled!!");
-            return;
-        }
-        // get the current wifi configuration
-        WifiConfiguration wifiConf = null;
-        WifiInfo connectionInfo = wm.getConnectionInfo();
-        List<WifiConfiguration> configuredNetworks = wm.getConfiguredNetworks();
-        if(configuredNetworks != null) {
-            for (WifiConfiguration conf : configuredNetworks){
-                if (conf.networkId == connectionInfo.getNetworkId()){
-                    wifiConf = conf;
-                    break;
-                }
-            }
-        }
-        if(wifiConf == null) {
-            // wifi is not connected
-            return;
-        }
-
-        if (setDhcp == true) {
-            try {
-                setIpAssignment("DHCP", wifiConf); //or "DHCP" for dynamic setting
-                wm.addNetwork(wifiConf);
-                wm.updateNetwork(wifiConf); //apply the setting
-                wm.saveConfiguration(); //Save it
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                setIpAssignment("STATIC", wifiConf); //or "DHCP" for dynamic setting
-                setIpAddress(InetAddress.getByName(address), mask_bits, wifiConf);
-                setGateway(InetAddress.getByName(gateway), wifiConf);
-                setDNS(InetAddress.getByName(dns1), wifiConf, false);
-                setDNS(InetAddress.getByName(dns2), wifiConf, true);
-                wm.updateNetwork(wifiConf); //apply the setting
-                wm.saveConfiguration(); //Save it
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-*/
-//////////////////////////////////
-
     void changeWifiConfiguration(boolean dhcp, String ip, int prefix, String dns1, String dns2, String gateway) {
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if(!wm.isWifiEnabled()) {
@@ -737,25 +591,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private boolean addNetworkAndActivate(ScanResult scanResult, String identity, String password) {
-//        ScanResult scanResult=null;
-        //get the current wifi configuration
-//        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiConfiguration wc = null;
         int networkId = -1;
-//        mWifiManager.startScan();
-// get list of the results in object format ( like an array )
-//        List<ScanResult> results = wifiManager.getScanResults();
-
-// loop that goes through list
-/*
-        for (ScanResult result : results) {
-            Log.d(LOG_TAG, "ScanResult: "+result.SSID);
-            if (result.SSID.equals(ssid)) {
-                scanResult = result;
-                break;
-            }
-        }
-*/
 
         List<WifiConfiguration> configs = mWifiManager.getConfiguredNetworks();
 
@@ -834,13 +671,6 @@ class ConfigurationSecuritiesV8 extends ConfigurationSecurities {
             return SECURITY_PSK;
         }
         if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X)) {
-/*
-            Log.d(LOG_TAG,"security: allowedGroupCiphers="+config.allowedGroupCiphers);
-            Log.d(LOG_TAG,"security: allowedAuthAlgorithms="+config.allowedAuthAlgorithms);
-            Log.d(LOG_TAG,"security: allowedProtocols="+config.allowedProtocols);
-            Log.d(LOG_TAG,"security: allowedPairwiseCiphers="+config.allowedPairwiseCiphers);
-//            WifiConfiguration.PairwiseCipher.
-*/
             return SECURITY_EAP;
         }
         return (config.wepKeys[0] != null) ? SECURITY_WEP : SECURITY_NONE;
@@ -912,8 +742,6 @@ class ConfigurationSecuritiesV8 extends ConfigurationSecurities {
                 config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
                 config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X);
 
-//                config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
-//                config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
                 config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
                 config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
 
@@ -933,11 +761,6 @@ class ConfigurationSecuritiesV8 extends ConfigurationSecurities {
             default:
                 Log.d(LOG_TAG, "Invalid security type: " + sec);
         }
-
-        // config.proxySettings = mProxySettings;
-        // config.ipAssignment = mIpAssignment;
-        // config.linkProperties = new LinkProperties(mLinkProperties);
-
     }
 
     private static PskType getPskType(ScanResult result) {
@@ -1015,10 +838,6 @@ abstract class ConfigurationSecurities {
     public abstract boolean isOpenNetwork(final String security);
 
     public static ConfigurationSecurities newInstance() {
-//      if (Version.SDK < 8) {
-//          return new ConfigurationSecuritiesOld();
-//      } else {
         return new ConfigurationSecuritiesV8();
-//      }
     }
 }
