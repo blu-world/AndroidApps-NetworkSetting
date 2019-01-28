@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.arkletech.networksetting.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/fullscreen_content_controls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="vertical"
+                android:visibility="visible"
+                tools:ignore="UselessParent">
+
+                <!-- This section is for the DHCP settings -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/black"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:maxLines="1"
+                        android:text="DCHP Settings"
+                        android:focusable="false"
+                        android:background="@android:color/transparent"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textColor="@android:color/white"/>
+
+                    <Button
+                        android:id="@+id/bt_dhcp_refresh"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/stat_notify_sync_noanim"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@string/net_ssid"
+                        android:textColor="@android:color/white"/>
+                    <EditText
+                        android:id="@+id/et_dhcp_ssid"
+                        style="@android:style/Widget.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_label"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@string/net_ip_address"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_dhcp_ip_address"
+                        style="@android:style/Widget.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_label2"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@string/net_mask"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_dhcp_mask"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_mask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label3"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@string/net_gateway"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_dhcp_gateway"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_gateway"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label4"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@string/net_dns_1"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_dhcp_dns_1"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_dns1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_label5"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@string/net_dns_2"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_dhcp_dns_2"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_dns2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/editText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:drawable/stat_sys_download"/>
+
+                    <Button
+                        android:id="@+id/bt_transfer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Transfer"/>
+
+                    <TextView
+                        android:id="@+id/editText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:drawable/stat_sys_download"/>
+                    android:text=""/>
+                </LinearLayout>
+
+                <!-- This section is for the Static settings -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/black"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:maxLines="1"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:text="Static Settings"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textColor="@android:color/white"/>
+
+                    <Button
+                        android:id="@+id/bt_static_refresh"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:background="@android:drawable/stat_notify_sync_noanim"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label6"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@string/net_ip_address"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_static_ip_address"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_static_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label7"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@string/net_mask"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_static_mask"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_static_mask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label8"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@string/net_gateway"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_static_gateway"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_static_gateway"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label9"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@string/net_dns_1"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_static_dns_1"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_static_dns1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/tv_label10"
+                        android:layout_width="127dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@string/net_dns_2"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"/>
+
+                    <EditText
+                        android:id="@+id/et_static_dns_2"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_update_static_dns2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/bt_static_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Update Static Settings"/>
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+<!--
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/navigation"/>
+-->
+
+</LinearLayout>
